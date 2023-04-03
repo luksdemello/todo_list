@@ -38,6 +38,7 @@ dependencies:
   flutter_signin_button: ^2.0.0
   firebase_core: ^2.9.0
   firebase_auth: ^4.4.0
+  validatorless: ^1.2.3
 
 
   # The following adds the Cupertino Icons font to your application.
