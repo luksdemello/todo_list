@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list/app/core/ui/todo_list_ui_config.dart';
 import 'package:todo_list/app/modules/auth/auth_module.dart';
 import 'package:todo_list/app/modules/splash/splash_page.dart';
 
@@ -29,6 +30,7 @@ class _AppWidgetState extends State<AppWidget> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: TodoListUiConfig.theme,
       title: 'Todo List',
       initialRoute: '/login',
       home: const SplashPage(),
