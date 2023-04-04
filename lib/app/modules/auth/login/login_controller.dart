@@ -48,11 +48,11 @@ class LoginController extends TodoListChangeNotifier {
         success();
       } else {
         setError('Erro ao realizar login com o google');
-        await _userService.googleLogout();
+        await _userService.logout();
       }
     } on AuthException catch (e) {
       setError(e.message);
-      await _userService.googleLogout();
+      await _userService.logout();
     } finally {
       hideLoading();
       notifyListeners();

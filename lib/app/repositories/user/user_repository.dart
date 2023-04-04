@@ -13,5 +13,5 @@ abstract class UserRepository {
     required String email,
   });
   Future<User?> signInWithGoogle();
-  Future<void> googleLogout();
+  Future<void> logout();
 }
