@@ -10,4 +10,8 @@ abstract class UserService {
     required String email,
     required String password,
   });
+
+  Future<void> forgotPassword({
+    required String email,
+  });
 }

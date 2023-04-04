@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_list/app/core/notifier/todo_list_listener_notifier.dart';
+import 'package:todo_list/app/core/ui/messages.dart';
 import 'package:todo_list/app/core/widgets/todo_list_field.dart';
 import 'package:todo_list/app/core/widgets/todo_list_logo.dart';
 import 'package:todo_list/app/modules/auth/login/login_controller.dart';
@@ -18,12 +19,20 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailEC = TextEditingController();
   final _passwordEC = TextEditingController();
+  final _emailFocus = FocusNode();
 
   @override
   void initState() {
     TodoListListenerNotifier(changeNotifier: context.read<LoginController>())
         .listener(
       context: context,
+      everCallback: (notifier, listenerNotifier) {
+        if (notifier is LoginController) {
+          if (notifier.hasInfo) {
+            Messages.of(context).showInfo(notifier.infoMessage!);
+          }
+        }
+      },
       succesCallback: (notifier, listenerNotifier) {},
     );
     super.initState();
@@ -67,6 +76,7 @@ class _LoginPageState extends State<LoginPage> {
                             TodoListField(
                               label: 'Email',
                               controller: _emailEC,
+                              focusNode: _emailFocus,
                               validator: Validatorless.multiple([
                                 Validatorless.required('Email é obrigatório'),
                                 Validatorless.email('Email inválido'),
@@ -94,7 +104,18 @@ class _LoginPageState extends State<LoginPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 TextButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    if (_emailEC.text.isNotEmpty) {
+                                      context
+                                          .read<LoginController>()
+                                          .forgotPassword(email: _emailEC.text);
+                                    } else {
+                                      _emailFocus.requestFocus();
+                                      Messages.of(context).showError(
+                                        'Digite um email para recuperar a senha',
+                                      );
+                                    }
+                                  },
                                   child: const Text('Esqueceu a sua senha?'),
                                 ),
                                 ElevatedButton(

@@ -4,10 +4,13 @@ import 'package:todo_list/app/services/user/user_service.dart';
 
 class LoginController extends TodoListChangeNotifier {
   final UserService _userService;
+  String? infoMessage;
 
   LoginController({
     required UserService userService,
   }) : _userService = userService;
+
+  bool get hasInfo => infoMessage != null;
 
   Future<void> login({
     required String email,
@@ -15,6 +18,7 @@ class LoginController extends TodoListChangeNotifier {
   }) async {
     try {
       showLoadingAndResetState();
+      infoMessage = null;
       notifyListeners();
 
       final user = await _userService.login(email: email, password: password);
@@ -24,6 +28,22 @@ class LoginController extends TodoListChangeNotifier {
       } else {
         setError('Email ou senha inválidos');
       }
+    } on AuthException catch (e) {
+      setError(e.message);
+    } finally {
+      hideLoading();
+      notifyListeners();
+    }
+  }
+
+  Future<void> forgotPassword({required String email}) async {
+    try {
+      showLoadingAndResetState();
+      infoMessage = null;
+      notifyListeners();
+
+      await _userService.forgotPassword(email: email);
+      infoMessage = 'Reset de senha enviado para seu email';
     } on AuthException catch (e) {
       setError(e.message);
     } finally {

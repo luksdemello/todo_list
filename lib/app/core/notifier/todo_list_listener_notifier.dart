@@ -13,9 +13,14 @@ class TodoListListenerNotifier {
   void listener({
     required BuildContext context,
     required SuccesVoidCallback succesCallback,
+    EverVoidCallback? everCallback,
     ErrorVoidCallback? errorCallback,
   }) {
     changeNotifier.addListener(() {
+      if (everCallback != null) {
+        everCallback(changeNotifier, this);
+      }
+
       if (changeNotifier.loading) {
         Loader.show(context);
       } else {
@@ -39,6 +44,9 @@ class TodoListListenerNotifier {
 }
 
 typedef SuccesVoidCallback = void Function(
+    TodoListChangeNotifier notifier, TodoListListenerNotifier listenerNotifier);
+
+typedef EverVoidCallback = void Function(
     TodoListChangeNotifier notifier, TodoListListenerNotifier listenerNotifier);
 
 typedef ErrorVoidCallback = void Function(
