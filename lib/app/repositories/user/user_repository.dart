@@ -5,4 +5,8 @@ abstract class UserRepository {
     required String email,
     required String password,
   });
+  Future<User?> login({
+    required String email,
+    required String password,
+  });
 }
