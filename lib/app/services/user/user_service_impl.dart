@@ -29,4 +29,10 @@ class UserServiceImpl implements UserService {
       _userRepository.forgotPassword(
         email: email,
       );
+
+  @override
+  Future<User?> signInWithGoogle() => _userRepository.signInWithGoogle();
+
+  @override
+  Future<void> googleLogout() => _userRepository.googleLogout();
 }

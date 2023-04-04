@@ -36,6 +36,29 @@ class LoginController extends TodoListChangeNotifier {
     }
   }
 
+  Future<void> googleLogin() async {
+    try {
+      showLoadingAndResetState();
+      infoMessage = null;
+      notifyListeners();
+
+      final user = await _userService.signInWithGoogle();
+
+      if (user != null) {
+        success();
+      } else {
+        setError('Erro ao realizar login com o google');
+        await _userService.googleLogout();
+      }
+    } on AuthException catch (e) {
+      setError(e.message);
+      await _userService.googleLogout();
+    } finally {
+      hideLoading();
+      notifyListeners();
+    }
+  }
+
   Future<void> forgotPassword({required String email}) async {
     try {
       showLoadingAndResetState();
