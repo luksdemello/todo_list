@@ -14,4 +14,5 @@ abstract class UserRepository {
   });
   Future<User?> signInWithGoogle();
   Future<void> logout();
+  Future<void> updateDisplayName(String name);
 }
