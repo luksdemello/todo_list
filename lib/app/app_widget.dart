@@ -33,6 +33,7 @@ class _AppWidgetState extends State<AppWidget> {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: TodoListUiConfig.theme,
+      debugShowCheckedModeBanner: false,
       title: 'Todo List',
       navigatorKey: TodoListNavigator.navigatorKey,
       home: const SplashPage(),
