@@ -30,6 +30,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   provider: ^6.0.5
   sqflite: ^2.2.6
   synchronized: ^3.0.1
@@ -42,6 +44,7 @@ dependencies:
   flutter_overlay_loader: ^2.0.0
   google_sign_in: ^6.0.2
   date_picker_timeline: ^1.2.3
+  intl: ^0.17.0
 
 
   # The following adds the Cupertino Icons font to your application.

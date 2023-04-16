@@ -5,6 +5,7 @@ import 'package:todo_list/app/modules/auth/auth_module.dart';
 import 'package:todo_list/app/modules/home/home_module.dart';
 import 'package:todo_list/app/modules/splash/splash_page.dart';
 import 'package:todo_list/app/modules/tasks/tasks_module.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'core/database/sqlite_adm_connection.dart';
 
@@ -34,6 +35,14 @@ class _AppWidgetState extends State<AppWidget> {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: TodoListUiConfig.theme,
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('pt', 'BR'),
+      ],
       debugShowCheckedModeBanner: false,
       title: 'Todo List',
       navigatorKey: TodoListNavigator.navigatorKey,
