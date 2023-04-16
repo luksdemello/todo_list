@@ -1,3 +1,5 @@
+import 'package:todo_list/app/models/task_model.dart';
+import 'package:todo_list/app/models/week_task_model.dart';
 import 'package:todo_list/app/repositories/tasks/tasks_repository.dart';
 
 import './tasks_service.dart';
@@ -14,4 +16,47 @@ class TasksServiceImpl implements TasksService {
         date: date,
         description: description,
       );
+
+  @override
+  Future<List<TaskModel>> getTotay() async {
+    return _repository.findByPeriod(
+      start: DateTime.now(),
+      end: DateTime.now(),
+    );
+  }
+
+  @override
+  Future<List<TaskModel>> getTomorrow() async {
+    final tomorrowDate = DateTime.now().add(const Duration(days: 1));
+
+    return _repository.findByPeriod(
+      start: tomorrowDate,
+      end: tomorrowDate,
+    );
+  }
+
+  @override
+  Future<WeekTaskModel> getWeek() async {
+    final today = DateTime.now();
+    var startFilter = DateTime(today.year, today.month, today.day, 0, 0, 0);
+    DateTime endFilter;
+
+    if (startFilter.weekday != DateTime.monday) {
+      startFilter =
+          startFilter.subtract(Duration(days: (startFilter.weekday - 1)));
+    }
+
+    endFilter = startFilter.add(const Duration(days: 7));
+
+    final tasks = await _repository.findByPeriod(
+      start: startFilter,
+      end: endFilter,
+    );
+
+    return WeekTaskModel(
+      startDate: startFilter,
+      endDate: endFilter,
+      taskModelList: tasks,
+    );
+  }
 }
