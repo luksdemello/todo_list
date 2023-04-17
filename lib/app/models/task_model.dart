@@ -36,4 +36,18 @@ class TaskModel {
 
   factory TaskModel.fromJson(String source) =>
       TaskModel.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  TaskModel copyWith({
+    int? id,
+    String? description,
+    DateTime? dateTime,
+    bool? finished,
+  }) {
+    return TaskModel(
+      id: id ?? this.id,
+      description: description ?? this.description,
+      dateTime: dateTime ?? this.dateTime,
+      finished: finished ?? this.finished,
+    );
+  }
 }

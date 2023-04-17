@@ -13,6 +13,9 @@ class HomeController extends TodoListChangeNotifier {
   TotalTaksModel? weekTotalTasks;
   List<TaskModel> allTasks = [];
   List<TaskModel> filteredTasks = [];
+  DateTime? initialDateOfWeek;
+  DateTime? selectedDate;
+  bool showFinishedTasks = false;
 
   HomeController({
     required TasksService tasksService,
@@ -64,6 +67,7 @@ class HomeController extends TodoListChangeNotifier {
         break;
       case TaskFilterEnum.week:
         final weekModel = await _tasksService.getWeek();
+        initialDateOfWeek = weekModel.startDate;
         tasks = weekModel.taskModelList;
         break;
     }
@@ -71,7 +75,29 @@ class HomeController extends TodoListChangeNotifier {
     filteredTasks = tasks;
     allTasks = tasks;
 
+    if (filter == TaskFilterEnum.week) {
+      if (selectedDate != null) {
+        filterByDay(selectedDate!);
+      } else if (initialDateOfWeek != null) {
+        filterByDay(initialDateOfWeek!);
+      }
+    } else {
+      selectedDate = null;
+    }
+
+    if (!showFinishedTasks) {
+      filteredTasks = filteredTasks.where((task) => !task.finished).toList();
+    }
+
     hideLoading();
+    notifyListeners();
+  }
+
+  void filterByDay(DateTime date) {
+    selectedDate = date;
+    filteredTasks = allTasks.where((task) {
+      return task.dateTime == selectedDate;
+    }).toList();
     notifyListeners();
   }
 
@@ -79,5 +105,20 @@ class HomeController extends TodoListChangeNotifier {
     await findTasks(filter: filterSelected);
     await loadTotalTasks();
     notifyListeners();
+  }
+
+  Future<void> checkOrUncheckTask({required TaskModel task}) async {
+    showLoadingAndResetState();
+    notifyListeners();
+    final taskUpdate = task.copyWith(finished: !task.finished);
+
+    await _tasksService.checkOrUncheckTask(task: taskUpdate);
+    hideLoading();
+    refreshPage();
+  }
+
+  void showOrHideFinishedTasks() {
+    showFinishedTasks = !showFinishedTasks;
+    refreshPage();
   }
 }
