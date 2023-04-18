@@ -33,17 +33,18 @@ class HomeController extends TodoListChangeNotifier {
     final weekTasks = allTasks[2] as WeekTaskModel;
 
     todayTotalTasks = TotalTaksModel(
-      totalTasks: todayTasks.length,
+      totalTasks: todayTasks.where((task) => !task.finished).length,
       totalTasksFinished: todayTasks.where((task) => task.finished).length,
     );
 
     tomorrowTotalTasks = TotalTaksModel(
-      totalTasks: tomorrowTasks.length,
+      totalTasks: tomorrowTasks.where((task) => !task.finished).length,
       totalTasksFinished: tomorrowTasks.where((task) => task.finished).length,
     );
 
     weekTotalTasks = TotalTaksModel(
-      totalTasks: weekTasks.taskModelList.length,
+      totalTasks:
+          weekTasks.taskModelList.where((task) => !task.finished).length,
       totalTasksFinished:
           weekTasks.taskModelList.where((task) => task.finished).length,
     );
@@ -99,6 +100,11 @@ class HomeController extends TodoListChangeNotifier {
       return task.dateTime == selectedDate;
     }).toList();
     notifyListeners();
+  }
+
+  Future<void> deleteTask(int id) async {
+    await _tasksService.deleteTasks(id: id);
+    refreshPage();
   }
 
   Future<void> refreshPage() async {

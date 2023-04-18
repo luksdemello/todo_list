@@ -7,4 +7,5 @@ abstract class TasksRepository {
     required DateTime end,
   });
   Future<void> checkOrUncheckTask({required TaskModel task});
+  Future<void> deleteTasks({int? id});
 }
