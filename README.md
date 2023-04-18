@@ -21,6 +21,7 @@ A aplicação foi desenvolvida em uma arquitetura de módulos com provider e sqf
  
 </p>
 
+<p align="center" >
  <img style="margin-right: 30px;" src="https://user-images.githubusercontent.com/69207514/232356337-f6b207a0-2b80-42a2-a052-49a1302e47ca.png" width="300px"/>
  <img src="https://user-images.githubusercontent.com/69207514/232356341-4148c4fd-15c4-4807-8a5f-57a1da5884b2.png" width="300px"/>
 </p>
